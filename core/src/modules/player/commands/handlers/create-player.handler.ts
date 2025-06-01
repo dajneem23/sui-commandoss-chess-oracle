@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import { ICommandHandler, CommandHandler } from '@nestjs/cqrs';
 import { CreatePlayerCommand } from '../create-player.command';
 import { PlayerRepository } from '../../repositories/player.repository';
-
+import { InjectRepository } from '@nestjs/typeorm';
 
 @CommandHandler(CreatePlayerCommand)
 export class CreateUserHandler implements ICommandHandler<CreatePlayerCommand> {
@@ -11,9 +11,8 @@ export class CreateUserHandler implements ICommandHandler<CreatePlayerCommand> {
     ) {}
 
     async execute(command: CreatePlayerCommand) {
-        Logger.log('Async CreateUserHandler...', 'CreatePlayerCommand');
+        Logger.log('Async CreateUserHandler...', command);
 
-        const { player } = command;
-        await this._repository.createPlayer(player)
+        return this._repository.createPlayer(command.player)
     }
 }

@@ -14,6 +14,6 @@ const providers = [ConfigService, LoggerService, ValidatorService, GeneratorServ
 @Module({
     providers,
     imports: [HttpModule,RedisModule],
-    exports: [...providers, HttpModule,RedisModule],
+    exports: [...providers, HttpModule, RedisModule],
 })
 export class SharedModule {}

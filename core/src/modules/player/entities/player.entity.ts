@@ -5,30 +5,33 @@ import { AbstractEntity } from '../../../common/abstract.entity';
 @Entity()
 export class Player extends AbstractEntity {
 
-  @Column()
-  name!: string;
+    @Column()
+    liChessId!: string;
 
-  @Column()
-  federation!: string;
+    @Column()
+    name!: string;
 
-  @Column()
-  year!: number;
+    @Column()
+    federation!: string;
 
-  @Column({ nullable: true })
-  title?: string;
+    @Column({ nullable: true })
+    year!: number;
 
-  @Column()
-  standard!: number;
+    @Column({ nullable: true })
+    title?: string;
 
-  @Column({ nullable: true })
-  rapid?: number;
+    @Column({ nullable: true,default: 0 })
+    standard!: number;
 
-  @Column({ nullable: true })
-  blitz?: number;
+    @Column({ nullable: true,default: 0 })
+    rapid?: number;
 
-  @Column({ default: false })
-  inactive!: boolean;
+    @Column({ nullable: true,default: 0 })
+    blitz?: number;
 
-  @Column({ nullable: true })
-  suiObjectid?: string;
+    @Column({ default: false })
+    inactive!: boolean;
+
+    @Column({ nullable: true })
+    suiObjectid?: string;
 }

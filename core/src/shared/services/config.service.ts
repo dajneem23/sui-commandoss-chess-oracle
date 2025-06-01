@@ -52,7 +52,7 @@ export class ConfigService {
                 host: this.get('REDIS_HOST'),
                 port: this.getNumber('REDIS_PORT'),
                 password: this.get('REDIS_PASSWORD'), // Optional
-            }
+            },
         } satisfies Bull.QueueOptions
     }
     get typeOrmConfig(): TypeOrmModuleOptions {
@@ -110,6 +110,24 @@ export class ConfigService {
                     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
                 }),
                 new DailyRotateFile({
+                    level: 'info',
+                    filename: `./logs/${this.nodeEnv}/info-%DATE%.log`,
+                    datePattern: 'YYYY-MM-DD',
+                    zippedArchive: true,
+                    maxSize: '20m',
+                    maxFiles: '14d',
+                    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+                }),
+                new DailyRotateFile({
+                    level: 'debug',
+                    filename: `./logs/${this.nodeEnv}/debug-%DATE%.log`,
+                    datePattern: 'YYYY-MM-DD',
+                    zippedArchive: true,
+                    maxSize: '20m',
+                    maxFiles: '14d',
+                    format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+                }),
+                new DailyRotateFile({
                     level: 'error',
                     filename: `./logs/${this.nodeEnv}/error-%DATE%.log`,
                     datePattern: 'YYYY-MM-DD',
@@ -119,7 +137,7 @@ export class ConfigService {
                     format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
                 }),
                 new winston.transports.Console({
-                    level: 'debug',
+                    level: 'info',
                     handleExceptions: true,
                     format: winston.format.combine(
                         winston.format.colorize(),
@@ -143,13 +161,6 @@ export class ConfigService {
             exitOnError: false,
         };
     }
-    get moralisConfig() {
-        return {
-            apiKey: this.get('MORALIS_API_KEY'),
-            apiUrl: 'https://web-proxy.minter.network/moralis',
-        };
-    }
-
     get services() {
         return {
             grpcPort: this.getNumber('GRPC_PORT') || 7900,

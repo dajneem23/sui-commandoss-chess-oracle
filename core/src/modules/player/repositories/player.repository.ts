@@ -1,17 +1,20 @@
-import { NotFoundException } from '@nestjs/common';
-import { Repository, Entity, DataSource } from 'typeorm';
+import { NotFoundException , Injectable} from '@nestjs/common';
+import { Repository, DataSource } from 'typeorm';
 import { v4 as uuidv4 } from 'uuid';
 
 import { Player } from '../entities/player.entity';
 
-@Entity()
+@Injectable()
 export class PlayerRepository extends Repository<Player> {
     constructor(private dataSource: DataSource) {
-        super(Player, dataSource.manager, dataSource.manager.queryRunner);
+        super(Player, dataSource.createEntityManager());
     }
     async createPlayer(playerRegisterDto: Player) {
+        console.log('Creating player with DTO:', playerRegisterDto);
         const id = uuidv4();
-        const player = await this.save(super.create({ ...{ id }, ...playerRegisterDto }));
+        const player =  this.create({ ...{ id }, ...playerRegisterDto });
+        await super.save(player);
+        console.log('Player created:', player.id);
         return player;
     }
 

@@ -11,7 +11,7 @@ export class PlayersService {
         private readonly _queryBus: QueryBus,
     ) {}
 
-    async createPlayer(player:Player) {
+     createPlayer(player) {
         return this._commandBus.execute(new CreatePlayerCommand(player));
     }
 

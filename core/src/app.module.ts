@@ -14,13 +14,13 @@ import { HealthModule } from './modules/health/health.module';
 import { TerminusModule } from '@nestjs/terminus';
 import { BullModule } from '@nestjs/bullmq';
 import { PlayersModule } from './modules/player/players.module';
+import { GamesModule } from './modules/game/game.module';
 
 @Module({
     imports: [
         ConfigModule.forRoot(), // ensure you have a configuration module
         CqrsModule.forRoot(),
         BullModule.forRootAsync({
-
             imports: [ SharedModule ],
             useFactory: (configService: ConfigService) => (configService.bullMqConfig),
             inject: [ ConfigService ],
@@ -48,6 +48,7 @@ import { PlayersModule } from './modules/player/players.module';
         }),
         HealthModule,
         TerminusModule,
+        GamesModule,
         PlayersModule
     ],
     controllers: [ AppController, HealthController, PlayerController ],

@@ -5,26 +5,26 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { CommandHandlers } from './commands/handlers';
 import { QueryHandlers } from './queries/handlers';
-import { PlayerRepository } from './repositories/player.repository';
-import { PlayerController } from './controllers/player.controller';
-import { PlayersService } from './services/players.service';
-import { PlayerConsumer } from './queue/player.processor';
+import { GameRepository } from './repositories/game.repository';
+import { GameController } from './controllers/game.controller';
+import { GamesService } from './services/game.service';
+import { GameConsumer } from './queue/game.processor';
 import { BullModule } from '@nestjs/bullmq';
 
 @Module({
     imports: [
-        TypeOrmModule.forFeature([ PlayerRepository ]),
+        TypeOrmModule.forFeature([ GameRepository ]),
         BullModule.registerQueue({
-            name: 'player',
+            name: 'game',
         }),
     ],
-    controllers: [ PlayerController ],
+    controllers: [ GameController ],
     providers: [
-        PlayerConsumer,
-        PlayersService,
-        PlayerRepository,
+        GameConsumer,
+        GamesService,
+        GameRepository,
         ...CommandHandlers,
         ...QueryHandlers,
     ],
 })
-export class PlayersModule { }
+export class GamesModule { }
